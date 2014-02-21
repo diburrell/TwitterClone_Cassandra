@@ -1,15 +1,17 @@
 package com.twitter.models;
 
+import java.util.UUID;
+
 import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.Session;
 import com.twitter.stores.TweetStore;
 
-public class WriteModel {
+public class DeleteTweetModel {
 	Cluster cluster;
 
-	public WriteModel() {
+	public DeleteTweetModel() {
 
 	}
 
@@ -17,16 +19,16 @@ public class WriteModel {
 		this.cluster = cluster;
 	}
 
-	public void storeTweet(TweetStore newTweet) {
-
+	public void removeTweet(UUID tweetID, UUID userID) {
+	
 		Session session = cluster.connect("TwitterDB");
 		
-		PreparedStatement statement = session.prepare("INSERT INTO Tweets (id, content, user, when) Values (now(),'"+newTweet.getTweet()+"',"+newTweet.getID()+",dateof(now()))");
+		PreparedStatement statement = session.prepare("DELETE From Tweets WHERE user = "+userID+" and id = "+tweetID);
 		BoundStatement boundStatement = new BoundStatement(statement);
 		session.execute(boundStatement);
 
 		session.close();
-		System.out.println("Tweet written!");
+		System.out.println("Tweet Deleted!");
 	}
 
 }

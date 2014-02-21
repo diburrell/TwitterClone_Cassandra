@@ -55,7 +55,7 @@ public class SignUp extends HttpServlet {
 		if (pw.equals("") || em.equals("") || un.equals("")) {
 			
 			s.setAttribute("badDetails", true);
-			response.sendRedirect("login.jsp");
+			response.sendRedirect("SignUpForm.jsp");
 
 		} else {
 			UserStore newUser = new UserStore();
@@ -79,11 +79,7 @@ public class SignUp extends HttpServlet {
 			
 			
 			UserStore currUser = um.getUser(em, pw);
-
-			
-			
-			
-			
+						
 			if (currUser == null) {
 				NewUserModel newUM = new NewUserModel();
 				newUM.setCluster(cluster);
@@ -96,7 +92,7 @@ public class SignUp extends HttpServlet {
 
 			} else {
 				s.setAttribute("badDetails", true);
-				response.sendRedirect("login.jsp");
+				response.sendRedirect("SignUpForm.jsp");
 			}
 		}
 	}

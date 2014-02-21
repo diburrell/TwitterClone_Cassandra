@@ -83,7 +83,6 @@
 	<br>
 
 	<%
-		System.out.println("In render");
 		List<TweetStore> lTweet = (List<TweetStore>) request
 				.getAttribute("ProfileTweets");
 

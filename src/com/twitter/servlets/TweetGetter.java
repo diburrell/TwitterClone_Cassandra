@@ -52,7 +52,6 @@ public class TweetGetter extends HttpServlet {
 
 		UserStore currUser = ((UserStore) request.getSession().getAttribute(
 				"UserDetails"));
-System.out.println(currUser.toString());
 		
 			LinkedList<TweetStore> tweetList = tm.getTweets(currUser
 					.getFollowing());

@@ -47,7 +47,6 @@ public class UserModel {
 						
 		}
 		session.close();
-System.out.println("Real PAssword: "+details.getString("password")+" = "+pw);
 		if (pw.equals(details.getString("password"))) {
 			return currUser;
 		} else {

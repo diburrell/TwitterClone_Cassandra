@@ -5,11 +5,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<link REL="StyleSheet" TYPE="text/css" HREF="css/Basic.css">
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Tweets</title>
 </head>
 <body>
-
+<div id="feed">
 	<%
 		UserStore user = ((UserStore) request.getSession().getAttribute(
 				"UserDetails"));
@@ -18,8 +19,8 @@
 		UUID userID = user.getID();
 	%>
 
-	<h1>
-		What's going on
+	<h1>	
+		What's going on 
 		<%=userName%></h1>
 
 	<form name="newTweet" action="WriteTweet" method="post">
@@ -35,11 +36,10 @@
 			<br> <input type="submit" value="Find more people to follow">
 	</form>
 
-
+</div>
 
 
 	<%
-		System.out.println("In render");
 		List<TweetStore> lTweet = (List<TweetStore>) request
 				.getAttribute("Tweets");
 		if (lTweet == null) {
@@ -60,7 +60,19 @@
 	<a href="ProfileGetter/<%=ts.getUser()%>"><font size="4"><STRONG><%=ts.getUser()%></STRONG></font></a><%=":   " + ts.getTweet()%></a>
 	<br />
 	<font size="2"><%=ts.getWhen()%></font>
-	<br>
+	
+	
+	<%
+	
+	if(user.getID().equals(ts.getUserID())) 
+	{
+	%>
+		<form name="deleteTweet" action="DeleteTweet/<%=ts.getTweetID()%>" method="get">
+		<input type="submit" value="Delete">
+		</form>
+			
+	<% 	
+	}%>
 	<br>
 	<%
 		}

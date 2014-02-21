@@ -65,7 +65,7 @@ public class EditUser extends HttpServlet {
 UserStore testUser = (UserStore)s.getAttribute("UserDetails");		  		  
 System.out.println(testUser.getEmail());
 
-		  response.sendRedirect("TweetGetter");
+		  response.sendRedirect("ChangesConf.jsp");
 		  
 	}
 

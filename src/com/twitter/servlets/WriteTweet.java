@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.datastax.driver.core.Cluster;
 import com.twitter.lib.*;
-import com.twitter.models.WriteModel;
+import com.twitter.models.WriteTweetModel;
 import com.twitter.stores.TweetStore;
 import com.twitter.stores.UserStore;
 
@@ -42,7 +42,7 @@ public class WriteTweet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 System.out.println("GOTTOTOTO HERERE !");		
-		WriteModel wm = new WriteModel();
+		WriteTweetModel wm = new WriteTweetModel();
 		wm.setCluster(cluster);
 		
 		TweetStore newTweet = new TweetStore();
@@ -51,7 +51,7 @@ System.out.println("GOTTOTOTO HERERE !");
 		
 System.out.println("ID Retreved: "+ currUser.getID());			
 		
-		newTweet.setID(currUser.getID());
+		newTweet.setUserID(currUser.getID());
 		newTweet.setTweet(request.getParameter("tweet"));
 
 		wm.storeTweet(newTweet);

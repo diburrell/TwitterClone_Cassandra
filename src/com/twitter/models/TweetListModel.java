@@ -42,7 +42,7 @@ public class TweetListModel {
 
 	    	for (UUID f : users) {
 			PreparedStatement statement = session
-					.prepare("SELECT * from tweets where user = " + f);//+" ORDER by id DESC");
+					.prepare("SELECT * from tweets where user = " + f);
 
 			BoundStatement boundStatement = new BoundStatement(statement);
 			ResultSet rs = session.execute(boundStatement);
@@ -53,10 +53,13 @@ public class TweetListModel {
 				for (Row row : rs) {
 					TweetStore ts = new TweetStore();
 					ts.setTweet(row.getString("content"));
-					ts.setID(row.getUUID("user"));
+					ts.setTweetID(row.getUUID("id"));
+System.out.println("TWEETLISTMODEL FEED");
+System.out.println("TWEET ID: "+ ts.getTweetID());
 					ts.setWhen(row.getDate("when"));
-					ts.setUser(userName(ts.getID(), session));
-
+					ts.setUserID(row.getUUID("user"));
+System.out.println("USER ID: "+ ts.getUserID());
+					ts.setUser(userName(row.getUUID("user"), session));		
 					tweetList.add(ts);
 
 				}

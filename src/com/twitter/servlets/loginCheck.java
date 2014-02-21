@@ -72,7 +72,6 @@ public class loginCheck extends HttpServlet {
 			}
 			catch (NoSuchAlgorithmException e)
 			{ }
-	System.out.println("Password Hashed: "+pw);
 			UserStore currUser = um.getUser(em, pw);
 
 			if (currUser != null) {

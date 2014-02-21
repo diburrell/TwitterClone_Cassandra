@@ -6,6 +6,7 @@ import java.util.UUID;
 public class TweetStore {
 	String Tweet;
 	String UserName;
+	UUID TweetID;
 	UUID UserID;
 	Date when;
 
@@ -18,7 +19,11 @@ public class TweetStore {
 		return UserName;
 	}
 	
-	public UUID getID() {
+	public UUID getTweetID() {
+		return TweetID;
+	}
+	
+	public UUID getUserID() {
 		return UserID;
 	}
 
@@ -35,7 +40,11 @@ public class TweetStore {
 		this.UserName = UserName;
 	}
 
-	public void setID(UUID UserID) {
+	public void setTweetID(UUID TweetID) {
+		this.TweetID = TweetID;
+	}
+	
+	public void setUserID(UUID UserID) {
 		this.UserID = UserID;
 	}
 
