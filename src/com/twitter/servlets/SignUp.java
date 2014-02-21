@@ -13,22 +13,24 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.datastax.driver.core.Cluster;
-import com.twitter.lib.*;
-import com.twitter.models.*;
-import com.twitter.stores.*;
+import com.twitter.lib.CassandraHosts;
+import com.twitter.lib.PasswordHasher;
+import com.twitter.models.NewUserModel;
+import com.twitter.models.UserModel;
+import com.twitter.stores.UserStore;
 
 /**
- * Servlet implementation class loginCheck
+ * Servlet implementation class SignUp
  */
-@WebServlet("/loginCheck")
-public class loginCheck extends HttpServlet {
+@WebServlet("/SignUp")
+public class SignUp extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Cluster cluster;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public loginCheck() {
+	public SignUp() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -38,31 +40,33 @@ public class loginCheck extends HttpServlet {
 		cluster = CassandraHosts.getCluster();
 	}
 
-	/**
-	 * @see HttpServlet#service(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
 		HttpSession s = request.getSession();
-		
-		s.setAttribute("wrongLogin", false);
+
 		s.setAttribute("badDetails", false);
+		s.setAttribute("wrongLogin", false);
 		
-		String pw = request.getParameter("password");
-		String em = request.getParameter("email");
+		String pw = request.getParameter("newPassword");
+		String em = request.getParameter("newEmail");
+		String un = request.getParameter("newName");
 
-		if (pw.equals("") || em.equals("")) {
-						
-			s.setAttribute("wrongLogin", true);		
-			response.sendRedirect("");
-		}
+		if (pw.equals("") || em.equals("") || un.equals("")) {
+			
+			s.setAttribute("badDetails", true);
+			response.sendRedirect("login.jsp");
 
-		else {
+		} else {
+			UserStore newUser = new UserStore();
+
+			newUser.setEmail(em);
+			newUser.setName(un);
+
 			UserModel um = new UserModel();
 			um.setCluster(cluster);
 
+			
 			
 			try
 			{
@@ -72,19 +76,29 @@ public class loginCheck extends HttpServlet {
 			}
 			catch (NoSuchAlgorithmException e)
 			{ }
-	System.out.println("Password Hashed: "+pw);
+			
+			
 			UserStore currUser = um.getUser(em, pw);
 
-			if (currUser != null) {
+			
+			
+			
+			
+			if (currUser == null) {
+				NewUserModel newUM = new NewUserModel();
+				newUM.setCluster(cluster);
+
+				currUser = newUM.storeUser(newUser, pw);
 				s.setAttribute("wrongLogin", false);
-				s.setAttribute("UserDetails", currUser); // Set a bean with //
-															// user in it
-				response.sendRedirect("TweetGetter");
+				s.setAttribute("UserDetails", currUser); // Set a bean with
+														 // user in it
+				response.sendRedirect("MoreDetails.jsp");
+
 			} else {
-				
-				s.setAttribute("wrongLogin", true);
-				response.sendRedirect("");
+				s.setAttribute("badDetails", true);
+				response.sendRedirect("login.jsp");
 			}
 		}
 	}
+
 }

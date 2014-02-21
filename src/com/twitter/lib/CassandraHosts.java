@@ -16,7 +16,7 @@ import java.util.List;
  * 192.168.2.10  Seed for Vagrant hosts 
  * 
  
- *
+ * www.youtube.com/user/david
  *
  */
 
@@ -38,8 +38,7 @@ public  final class CassandraHosts {
 			  cluster = Cluster.builder()
 				         .addContactPoint(Host).build();
 		  }
-			System.out.println("Cluster Name " + cluster.getClusterName());
-		    Metadata mdata = cluster.getMetadata();
+			 Metadata mdata = cluster.getMetadata();
 		    Set<Host> hosts =mdata.getAllHosts();
 		    String sHosts[] = new String[hosts.size()];
 
@@ -56,13 +55,9 @@ public  final class CassandraHosts {
 		   return sHosts;
 	}
 	public static Cluster getCluster(){
-		System.out.println("getCluster");
 		cluster = Cluster.builder()
 		         .addContactPoint(Host).build();
 			getHosts(cluster);
-			//Keyspaces.SetUpKeySpaces(cluster);
-
-
 
 		return cluster;
 

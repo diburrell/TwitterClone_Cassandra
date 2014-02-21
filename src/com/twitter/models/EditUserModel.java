@@ -4,12 +4,13 @@ import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.Session;
-import com.twitter.stores.TweetStore;
+import com.twitter.stores.UserStore;
 
-public class WriteModel {
+public class EditUserModel {
+
 	Cluster cluster;
 
-	public WriteModel() {
+	public EditUserModel() {
 
 	}
 
@@ -17,16 +18,22 @@ public class WriteModel {
 		this.cluster = cluster;
 	}
 
-	public void storeTweet(TweetStore newTweet) {
+	public void editUser(UserStore editedUser) {
 
 		Session session = cluster.connect("TwitterDB");
-		
-		PreparedStatement statement = session.prepare("INSERT INTO Tweets (id, content, user, when) Values (now(),'"+newTweet.getTweet()+"',"+newTweet.getID()+",dateof(now()))");
+
+		PreparedStatement statement = session
+				.prepare("UPDATE users SET firstname = '"
+						+ editedUser.getFirst() + "', lastname = '"
+						+ editedUser.getLast() + "', gender = '"
+						+ editedUser.getSex() + "', bio = '"
+						+ editedUser.getBio() + "' WHERE email = '"
+						+ editedUser.getEmail() + "'");
+
 		BoundStatement boundStatement = new BoundStatement(statement);
 		session.execute(boundStatement);
 
 		session.close();
-		System.out.println("Tweet written!");
-	}
 
+	}
 }

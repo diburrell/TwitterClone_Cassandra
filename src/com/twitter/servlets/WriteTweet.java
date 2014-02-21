@@ -3,7 +3,6 @@ package com.twitter.servlets;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,7 +14,7 @@ import com.datastax.driver.core.Cluster;
 import com.twitter.lib.*;
 import com.twitter.models.WriteModel;
 import com.twitter.stores.TweetStore;
-import com.twitter.servlets.*;
+import com.twitter.stores.UserStore;
 
 /**
  * Servlet implementation class dataWrite
@@ -41,21 +40,23 @@ public class WriteTweet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+System.out.println("GOTTOTOTO HERERE !");		
 		WriteModel wm = new WriteModel();
 		wm.setCluster(cluster);
 		
 		TweetStore newTweet = new TweetStore();
 		
-		String currName= (String)request.getSession().getAttribute("name");
-			
-		newTweet.setUser(currName);
-System.out.println("NAME IS...." + newTweet.getUser());
+		UserStore currUser= (UserStore)request.getSession().getAttribute("UserDetails");
+		
+System.out.println("ID Retreved: "+ currUser.getID());			
+		
+		newTweet.setID(currUser.getID());
 		newTweet.setTweet(request.getParameter("tweet"));
-			
-		wm.storeTweet(newTweet);
 
+		wm.storeTweet(newTweet);
+		System.out.println(request.getContextPath()+"/TweetGetter");
+		response.sendRedirect(request.getContextPath()+"/TweetGetter");			
 	}
 
 

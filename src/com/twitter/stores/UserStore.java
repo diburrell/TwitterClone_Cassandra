@@ -1,11 +1,20 @@
 package com.twitter.stores;
 
+import java.util.Set;
+import java.util.UUID;
+
 public class UserStore {
-	int ID;
+	UUID ID;
 	String email;
 	String userName;
-
-	public int getID() {
+	String sex;
+	String fname;
+	String lname;
+	String bio;
+	
+	Set<UUID> following;
+	
+	public UUID getID() {
 		return ID;
 	}
 
@@ -17,8 +26,33 @@ public class UserStore {
 	{
 	  return userName;
 	}
+	
+	public String getSex()
+	{
+		return sex;
+	}
+	
+	public String getFirst()
+	{
+		return fname;
+	}
 
-	public void setID(int ID) {
+	public String getLast()
+	{
+		return lname;
+	}
+
+	public String getBio()
+	{
+		return bio;
+	}
+	
+	public Set<UUID> getFollowing()
+	{
+		return following;
+	}
+	
+	public void setID(UUID ID) {
 		this.ID = ID;
 	}
 
@@ -29,5 +63,34 @@ public class UserStore {
 	public void setName(String userName) {
 		this.userName = userName;
 	}
-
+	
+	public void setSex(String sex)
+	{
+		this.sex = sex;
+	}
+	
+	public void setFirst(String fname)
+	{
+		this.fname = fname;
+	}
+	
+	public void setLast(String lname)
+	{
+		this.lname = lname;
+	}
+	
+	public void setBio(String bio)
+	{
+		this.bio = bio;
+	}
+	
+	public void setFollowing(Set<UUID> following)
+	{
+		this.following = following;
+	}
+	
+	public void addFollwoing(UUID newFollowing)
+	{
+		following.add(newFollowing);
+	}
 }

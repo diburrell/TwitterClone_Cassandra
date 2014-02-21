@@ -22,38 +22,58 @@ import com.twitter.stores.*;
 @WebServlet({ "/TweetGetter", "/TweetGetter/*" })
 public class TweetGetter extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private Cluster cluster;
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public TweetGetter() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-    public void init(ServletConfig config) throws ServletException {
+	private Cluster cluster;
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public TweetGetter() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public void init(ServletConfig config) throws ServletException {
 		// TODO Auto-generated method stub
 		cluster = CassandraHosts.getCluster();
 	}
-    
+
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-System.out.println("IN TW DOGET!!");
-// TODO Auto-generated method stub
-		//String args[]=Convertors.SplitRequestPath(request);
-		TweetModel tm= new TweetModel();
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		TweetListModel tm = new TweetListModel();
 		tm.setCluster(cluster);
-		LinkedList<TweetStore> tweetList = tm.getTweets();
-		request.setAttribute("Tweets", tweetList); //Set a bean with the list in it
-		RequestDispatcher rd = request.getRequestDispatcher("/RenderTweets.jsp"); 
-		rd.forward(request, response);
+
+		String s = request.getRequestURI();
+		s = s.substring(s.lastIndexOf("/") + 1);
+
+		UserStore currUser = ((UserStore) request.getSession().getAttribute(
+				"UserDetails"));
+System.out.println(currUser.toString());
+		
+			LinkedList<TweetStore> tweetList = tm.getTweets(currUser
+					.getFollowing());
+
+			request.setAttribute("Tweets", tweetList); // Set a bean with the
+														// list in it
+
+			RequestDispatcher rd = request
+					.getRequestDispatcher("/TweetFeed.jsp");
+
+			rd.forward(request, response);
+
+		;
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 	}
 
