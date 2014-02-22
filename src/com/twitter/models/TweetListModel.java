@@ -54,11 +54,8 @@ public class TweetListModel {
 					TweetStore ts = new TweetStore();
 					ts.setTweet(row.getString("content"));
 					ts.setTweetID(row.getUUID("id"));
-System.out.println("TWEETLISTMODEL FEED");
-System.out.println("TWEET ID: "+ ts.getTweetID());
 					ts.setWhen(row.getDate("when"));
 					ts.setUserID(row.getUUID("user"));
-System.out.println("USER ID: "+ ts.getUserID());
 					ts.setUser(userName(row.getUUID("user"), session));		
 					tweetList.add(ts);
 

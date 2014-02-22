@@ -29,8 +29,10 @@ catch(Exception e)
 <% 
 if(loginWrong)
 {%>
-  <p><font color="red">LOGIN WRONG</font>    
-<%}
+  <p><font color="red">USER NOT FOUND!</font>    
+<%
+loginWrong = false;
+}
 %>
 <form name="loginform" action= "loginCheck"  method="post">
 <p>Enter Email Address: 
@@ -42,7 +44,7 @@ Enter Password:
 <br>
 <input name="password" type="password">
 <br>
-<input type="submit" value="Login" id="login">
+<input type="submit" value="Login" id="button">
 </p>
 </form>
 </div>
@@ -50,7 +52,7 @@ Enter Password:
 <div id="base">
 <p>Not a member? Sign up here</p>
 <form name="signupform" action= "SignUpForm.jsp"> 
-<input type="submit" value="Sign Up" id="login">
+<input type="submit" value="Sign Up" id="button">
 </form>
 </div>
 

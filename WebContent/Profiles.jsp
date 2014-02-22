@@ -5,6 +5,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<base href="/TwitterClone_Cassandra/">
+<link REL="StyleSheet" TYPE="text/css" HREF="css/Details.css">
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <%
 	HttpSession s = request.getSession();
@@ -16,9 +18,31 @@
 
 	boolean allreadyFollowing = false;
 	boolean ownProfile = false;
+	
+	String userName=currUser.getName();
+	
 	Set<UUID> following = currUser.getFollowing();
 	UUID profID = ProfileOf.getID();
-
+	
+	String bio = ProfileOf.getBio();
+	if(bio.equals(null))
+	{
+		bio = "";
+	}
+				
+	String name = ProfileOf.getFirst() +" "+ ProfileOf.getLast();
+	if(name.equals(null))
+	{
+		name = "";
+	}
+	
+	String gender = ProfileOf.getSex();
+	if(gender.equals(null))
+	{
+		gender = "";
+	}
+	
+	
 	if (profID.compareTo(currUser.getID()) == 0) {
 		ownProfile = true;
 
@@ -35,18 +59,43 @@
 <title><%=ProfileOf.getName()%></title>
 </head>
 <body>
+<div id="header">
+		<h1>
+			<u>BLABARRAMA</u>
+		</h1>
+
+		<form name="seeUsers" action="ListUsers" method="Post">
+			<p>
+				<br> <input type="submit" value="Find more people to follow"
+					id="seeUsers">
+		</form>
+	
+		<form name="ownProfile" action="ProfileGetter/<%=userName%>" method="gett">
+			<input type="submit" value="Profile" id="profile">
+		</form>
+
+		<form class="button" name="seeFeed" action="TweetGetter" method="gett">
+			<input type="submit" value="Tweet Feed" id="showfeed">
+		</form>
+
+		<form name="logout" action="/TwitterClone_Cassandra/LogOut" method="post">
+			<input type="submit" value="LOG OUT!" id="logout">
+		</form>
+	</div>
+
+<div id="content">
 	<p>
-		<font Size=6>User name: <%=ProfileOf.getName()%></font> <br>
+		<font Size=6><%=ProfileOf.getName()%></font> <br>
 	<p>
 		<font Size=4><u>Bio</u></font>
 	<p>
-		<font Size=4><%=ProfileOf.getBio()%></font> <br> <br>
+		<font Size=4><%=bio%></font> <br> <br>
 	<p>
-		<font Size=4>Name: <%=ProfileOf.getFirst()%> <%=ProfileOf.getLast()%></font>
+		<font Size=4>Name: <%=name%></font>
 	<p>
 		<font Size=4>Birthday: TO DO!</font>
 	<p>
-		<font Size=4>Gender: <%=ProfileOf.getSex()%></font>
+		<font Size=4>Gender: <%=gender%></font>
 	<p>
 		<font Size=4>User email: <%=ProfileOf.getEmail()%></font> <br> <br>
 
@@ -57,31 +106,29 @@
 	
 	<form name="followform" action="/TwitterClone_Cassandra/AddFollower"
 		method="post">
-		<input type="submit" value="Follow">
+		<input type="submit" value="Follow" id="enter">
 	</form>
 	<%
 		} else {
 	%>
 	<form name="unfollowform"
 		action="/TwitterClone_Cassandra/RemoveFollower" method="post">
-		<input type="submit" value="Unfollow">
+		<input type="submit" value="Unfollow" id="enter">
 	</form>
 	<%
 		}
 		} else {
 	%>
 	<form name="editInfo" action="/TwitterClone_Cassandra/MoreDetails.jsp">
-		<input type="submit" value="Edit Profile">
+		<input type="submit" value="Edit Profile" id="enter">
 	</form>
 	<%
 		}
 	%>
-	<form name="backtofeed" action="/TwitterClone_Cassandra/TweetGetter"
-		method="get">
-		<input type="submit" value="Back To Feed">
-	</form>
-	<br>
+</div>
 
+<div id= feed>
+<h2><u>TWEETS</u></h2>
 	<%
 		List<TweetStore> lTweet = (List<TweetStore>) request
 				.getAttribute("ProfileTweets");
@@ -112,5 +159,6 @@
 		}
 		}
 	%>
+	</div>
 </body>
 </html>

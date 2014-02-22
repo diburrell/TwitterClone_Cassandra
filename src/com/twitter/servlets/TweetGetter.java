@@ -19,7 +19,7 @@ import com.twitter.stores.*;
 /**
  * Servlet implementation class Tweet
  */
-@WebServlet({ "/TweetGetter", "/TweetGetter/*" })
+@WebServlet("/TweetGetter")
 public class TweetGetter extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Cluster cluster;

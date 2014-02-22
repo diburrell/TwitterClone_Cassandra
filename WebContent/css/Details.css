@@ -83,7 +83,7 @@ body {
 }
 
 
-#newTweet {
+#content {
 	padding-left: 3px;
 	padding-bottom: 3px;
 	text-align: left;
@@ -97,8 +97,15 @@ body {
 	left: 3px;
 }
 
-#newTweet	h1 {
-	text-align: left;
+#enter {
+	border: 1px solid #777777;
+	background-color: #B15089;
+	color: white;
+	font: bold 11px 'Trebuchet MS';
+	padding: 4px;
+	cursor: pointer;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
 }
 
 #feed {
@@ -114,32 +121,3 @@ body {
 	left: 425px;
 	text-align: left;
 }
-
-#send {
-	border: 1px solid #777777;
-	background-color: #B15089;
-	color: white;
-	font: bold 11px 'Trebuchet MS';
-	padding: 4px;
-	cursor: pointer;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-
-}
-
-#delete {
-	border: 1px solid #777777;
-	background-color: #B15089;
-	color: white;
-	font: bold 11px 'Trebuchet MS';
-	padding: 4px;
-	cursor: pointer;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	position: relative;
-	left: 250px;
-	top: -40px;
-}
-
-
-

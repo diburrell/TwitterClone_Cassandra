@@ -48,10 +48,15 @@ public class EditUser extends HttpServlet {
 		  String lname = request.getParameter("LastName");
 		  String bio = request.getParameter("bio");
 
+		  if(bio.equals(null))
+		  {
+			  bio = "N/A";
+		  }
+		  
 		  currUser.setSex(sex);
 		  currUser.setFirst(fname);
 		  currUser.setLast(lname);
-		  currUser.setBio(bio);
+		  currUser.setBio(bio); 
 		  
 		  EditUserModel eum = new EditUserModel();
 

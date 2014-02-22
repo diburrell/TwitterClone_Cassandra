@@ -43,7 +43,7 @@ Enter Password:
 <br>
 <input name="newPassword" type="password">
 <br> 
-<input type="submit" id ="login" value="Sign Up">
+<input type="submit" id ="button" value="Sign Up">
 </p>
 </form>
 </div>

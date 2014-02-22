@@ -33,9 +33,9 @@ public class loginCheck extends HttpServlet {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void init(ServletConfig config) throws ServletException {
-		// TODO Auto-generated method stub
+	public void init(ServletConfig config) throws ServletException {	
 		cluster = CassandraHosts.getCluster();
+		
 	}
 
 	/**

@@ -42,6 +42,10 @@ public class UserModel {
 				currUser.setID(details.getUUID("id"));
 				currUser.setEmail(details.getString("email"));
 				currUser.setName(details.getString("username"));
+				currUser.setBio(details.getString("bio"));
+				currUser.setFirst(details.getString("firstname"));
+				currUser.setLast(details.getString("lastname"));
+				currUser.setSex(details.getString("gender"));
 				currUser.setFollowing(details.getSet("following", UUID.class));								
 			}
 						
