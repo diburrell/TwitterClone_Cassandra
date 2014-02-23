@@ -105,7 +105,7 @@
 			Enter Last Name: <input name="LastName" type="text"
 				value=<%=details[3]%>> <br> <br> Select gender:<br>
 			<%
-				if (details[4] == null) {
+				if (details[4] == "") {
 			%>
 			<input type="radio" name="sex" value="male">Male <input
 				type="radio" name="sex" value="female"> Female <br>
