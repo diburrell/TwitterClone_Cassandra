@@ -78,7 +78,7 @@ body {
 	
 	position: relative;
 	left: 760px;
-	top: -160px;
+	top: -165px;
 }
 
 #content {
@@ -94,8 +94,13 @@ body {
 	top: 70px;
 	left: 3px;
 	
+	Width: 370px;
 	Height: 800px;
-		scroll : auto;
+	
+	text-overflow: clip; /* will make [...] at the end */
+    overflow:hidden; /* older browsers */	
+	
+	/*scroll : auto;*/
 }
 
 #enter {

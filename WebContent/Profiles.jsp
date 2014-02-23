@@ -87,12 +87,17 @@
 		<p>
 			<font Size=6><%=ProfileOf.getName()%></font> <br>
 		<p>
-			<font Size=4>Following: <%=followCount    %>  Followers:<%=followerCount%> </font>
+			<font Size=4>Following: <%=followCount%> 
+			<br>
+			<br> 
+			Followers:<%=followerCount%> </font>
 		<p>
 
 			<font Size=4><u>Bio</u></font>
+		
 		<p>
 			<font Size=4><%=bio%></font> <br> <br>
+		</p>
 		<p>
 			<font Size=4>Name: <%=name%></font>
 		<p>
@@ -164,12 +169,12 @@
 			style="text-decoration: none;"><%=":   " + ts.getTweet()%></a> <br />
 			
 		<font size="2"><%=ts.getWhen()%></font> <br> <br>
-				
+				<%if(ownProfile) {%>
 		<form class="button" name="deleteTweet"
 			action="DeleteTweet/<%=ts.getTweetID()%>" method="get" onsubmit="return confirm('Are you sure you want to delete this tweet?')">		
 			<input type="submit" value="Delete" id="delete">
 		</form>
-		<%
+		<%}
 			}
 			}
 		%>

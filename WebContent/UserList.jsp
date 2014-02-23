@@ -62,7 +62,7 @@ String userName=currUser.getName();
 			while (iterator.hasNext()) {
 				String user = (String)iterator.next();
 	%>
-	<a href="ProfileGetter/<%=user%>"><font size="4"><STRONG><%=user%></STRONG></font><br /></a>
+	<a href="ProfileGetter/<%=user%>" style="text-decoration: none;"><font size="4"><STRONG><%=user%></STRONG></font><br /></a>
 	 <%
  	}
  	}
