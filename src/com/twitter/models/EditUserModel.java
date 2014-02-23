@@ -27,7 +27,8 @@ public class EditUserModel {
 						+ editedUser.getFirst() + "', lastname = '"
 						+ editedUser.getLast() + "', gender = '"
 						+ editedUser.getSex() + "', bio = '"
-						+ editedUser.getBio() + "' WHERE email = '"
+						+ editedUser.getBio() + "', birthdate ='"
+						+ editedUser.getBirthday() + "' WHERE email = '"
 						+ editedUser.getEmail() + "'");
 
 		BoundStatement boundStatement = new BoundStatement(statement);

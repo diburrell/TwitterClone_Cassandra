@@ -52,7 +52,7 @@ public class AddFollower extends HttpServlet {
 
 		AddFollowerModel afm = new AddFollowerModel();
 		afm.setCluster(cluster);
-		currUser.setFollowing(afm.newFollower(currUser, ProfileOf.getID()));
+		currUser.setFollowing(afm.newFollower(currUser, ProfileOf));
 		
 		s.setAttribute("UserDetails", currUser);
 		

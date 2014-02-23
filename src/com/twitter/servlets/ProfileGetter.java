@@ -48,6 +48,8 @@ public class ProfileGetter extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		HttpSession s = request.getSession();
+		
+		
 		TweetListModel tm= new TweetListModel();
 		ProfileModel pm = new ProfileModel();
 		
@@ -63,15 +65,12 @@ public class ProfileGetter extends HttpServlet {
 		Set<UUID> profID = new HashSet<UUID>();
 		profID.add(profUser.getID());
 		
-		LinkedList<TweetStore> tweetList = tm.getTweets(profID);	
-		//s.setAttribute("ProfileTweets", tweetList); //Set a bean with the list in it
-						
+		LinkedList<TweetStore> tweetList = tm.getTweets(profID);						
 		
 		request.setAttribute("ProfileTweets", tweetList); //Set a bean with the list in it
 		request.setAttribute("ProfileOf", profUser); //Set a bean with the list in it
 		
 		RequestDispatcher rd = request.getRequestDispatcher("/Profiles.jsp"); 
-
 		
 		rd.forward(request, response);
 	}

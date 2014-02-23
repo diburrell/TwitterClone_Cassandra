@@ -29,11 +29,11 @@ String userName=currUser.getName();
 					id="seeUsers">
 		</form>
 	
-		<form name="ownProfile" action="ProfileGetter/<%=userName%>" method="gett">
+		<form name="ownProfile" action="ProfileGetter/<%=userName%>" method="get">
 			<input type="submit" value="Profile" id="profile">
 		</form>
 
-		<form class="button" name="seeFeed" action="TweetGetter" method="gett">
+		<form class="button" name="seeFeed" action="TweetGetter" method="get">
 			<input type="submit" value="Tweet Feed" id="showfeed">
 		</form>
 
@@ -62,7 +62,7 @@ String userName=currUser.getName();
 			while (iterator.hasNext()) {
 				String user = (String)iterator.next();
 	%>
-	<a href="ProfileGetter/<%=user%>"><font size="4"><STRONG><%=user%></STRONG></font><br />
+	<a href="ProfileGetter/<%=user%>"><font size="4"><STRONG><%=user%></STRONG></font><br /></a>
 	 <%
  	}
  	}

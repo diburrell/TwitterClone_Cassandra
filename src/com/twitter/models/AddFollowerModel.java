@@ -22,27 +22,68 @@ public class AddFollowerModel {
 		this.cluster = cluster;
 	}
 
-	public Set<UUID> newFollower(UserStore user, UUID toFollow) {
+	public Set<UUID> newFollower(UserStore user, UserStore profile) {
 		Session session = cluster.connect("TwitterDB");
 
 		PreparedStatement addFollowing = session
 				.prepare("UPDATE users SET following = following + {"
-						+ toFollow + "} WHERE email = '" + user.getEmail() + "'");
-
+						+ profile.getID() + "} WHERE email = '" + user.getEmail()
+						+ "'");
 		BoundStatement boundStatement = new BoundStatement(addFollowing);
 		session.execute(boundStatement);
-		
-		
-		PreparedStatement getFollowing =  session
-				.prepare("Select following from users WHERE email = '" + user.getEmail() + "'");
+
+		PreparedStatement getFollowing = session
+				.prepare("Select following from users WHERE email = '"
+						+ user.getEmail() + "'");
 		boundStatement = new BoundStatement(getFollowing);
 		ResultSet rs = session.execute(boundStatement);
 		
 		Row result = rs.one();
-		Set<UUID> newFollowing = result.getSet("following", UUID.class); 
+		Set<UUID> userIsFollowing = result.getSet("following", UUID.class);
+
+		PreparedStatement updateFollowCount = session
+				.prepare("UPDATE users SET followcount = "
+						+ (userIsFollowing.size() - 1) + "WHERE email = '"
+						+ user.getEmail() + "'");
+
+		boundStatement = new BoundStatement(updateFollowCount);
+		session.execute(boundStatement);
+
+		
+		
+		
+		if(!profile.equals(user))
+		{
+		PreparedStatement updateFollowing = session
+				.prepare("Update users SET followers = followers + {"+user.getID()+"} "
+				+ "where email = '"+profile.getEmail()+"'");
+		
+		boundStatement = new BoundStatement(updateFollowing);
+		session.execute(boundStatement);
+		
+
+		PreparedStatement getFollowers = session
+				.prepare("Select following from users WHERE email = '"
+						+ user.getEmail() + "'");
+		boundStatement = new BoundStatement(getFollowers);
+		ResultSet rs2 = session.execute(boundStatement);
+		
+		Row result2 = rs2.one();
+		Set<UUID> profileFollowers = result2.getSet("following", UUID.class);
+
+		PreparedStatement updateFollowerCount = session
+				.prepare("UPDATE users SET followercount = "
+						+ (profileFollowers.size() - 1) + "WHERE email = '"
+						+ profile.getEmail() + "'");
+
+		boundStatement = new BoundStatement(updateFollowerCount);
+		session.execute(boundStatement);
+		
+		
+		}
 		
 		session.close();
-		
-		return newFollowing;
+
+		return userIsFollowing;
 	}
 }

@@ -22,12 +22,12 @@ public class RemoveFollowerModel {
 		this.cluster = cluster;
 	}
 
-	public Set<UUID> takeFollower(UserStore user, UUID toRemove) {
+	public Set<UUID> takeFollower(UserStore user, UserStore profile) {
 		Session session = cluster.connect("TwitterDB");
 
 		PreparedStatement addFollowing = session
 				.prepare("UPDATE users SET following = following - {"
-						+ toRemove + "} WHERE email = '" + user.getEmail() + "'");
+						+ profile.getID() + "} WHERE email = '" + user.getEmail() + "'");
 
 		BoundStatement boundStatement = new BoundStatement(addFollowing);
 		session.execute(boundStatement);
@@ -40,6 +40,54 @@ public class RemoveFollowerModel {
 		
 		Row result = rs.one();
 		Set<UUID> newFollowing = result.getSet("following", UUID.class); 
+		
+		PreparedStatement updateFollowCount = session
+				.prepare("UPDATE users SET followcount = "
+						+ (newFollowing.size() - 1) + "WHERE email = '"
+						+ user.getEmail() + "'");
+		boundStatement = new BoundStatement(updateFollowCount);
+		session.execute(boundStatement);
+		
+		
+		
+		PreparedStatement updateFollowing = session
+				.prepare("Update users SET followers = followers - {"+user.getID()+"} "
+				+ "where email = '"+profile.getEmail()+"'");
+		
+		boundStatement = new BoundStatement(updateFollowing);
+		session.execute(boundStatement);
+		
+
+		PreparedStatement getFollowers = session
+				.prepare("Select following from users WHERE email = '"
+						+ user.getEmail() + "'");
+		boundStatement = new BoundStatement(getFollowers);
+		ResultSet rs2 = session.execute(boundStatement);
+		
+		Row result2 = rs2.one();
+		Set<UUID> profileFollowers = result2.getSet("following", UUID.class);
+
+		PreparedStatement updateFollowerCount = session
+				.prepare("UPDATE users SET followercount = "
+						+ (profileFollowers.size() - 1) + "WHERE email = '"
+						+ profile.getEmail() + "'");
+
+		boundStatement = new BoundStatement(updateFollowerCount);
+		session.execute(boundStatement);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		session.close();
 		

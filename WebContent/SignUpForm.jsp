@@ -33,15 +33,15 @@ if(badDetails)
 <form name="signupform" action= "SignUp"  method="post">
 <p>Enter Username:      
 <br>
-<input name="newName" type="text">  
+<input name="newName" type="text" required>  
 <br>
 Enter Email Address: 
 <br>
-<input name="newEmail" type="text">   
+<input name="newEmail" type="text" required>   
 <br>
 Enter Password: 
 <br>
-<input name="newPassword" type="password">
+<input name="newPassword" type="password" required>
 <br> 
 <input type="submit" id ="button" value="Sign Up">
 </p>

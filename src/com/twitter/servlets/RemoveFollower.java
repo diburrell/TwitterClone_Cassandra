@@ -12,7 +12,6 @@ import javax.servlet.http.HttpSession;
 
 import com.datastax.driver.core.Cluster;
 import com.twitter.lib.CassandraHosts;
-import com.twitter.models.AddFollowerModel;
 import com.twitter.models.RemoveFollowerModel;
 import com.twitter.stores.UserStore;
 
@@ -54,7 +53,7 @@ public class RemoveFollower extends HttpServlet {
 		RemoveFollowerModel rfm = new RemoveFollowerModel();
 		rfm.setCluster(cluster);
 		
-		currUser.setFollowing(rfm.takeFollower(currUser, ProfileOf.getID()));
+		currUser.setFollowing(rfm.takeFollower(currUser, ProfileOf));
 		
 		s.setAttribute("UserDetails", currUser);
 		

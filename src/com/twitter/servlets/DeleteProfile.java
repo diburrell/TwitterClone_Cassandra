@@ -9,24 +9,23 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.datastax.driver.core.Cluster;
 import com.twitter.lib.CassandraHosts;
-import com.twitter.models.DeleteTweetModel;
-import com.twitter.stores.UserStore;
-
+import com.twitter.models.DeleteUserModel;
 /**
  * Servlet implementation class DeleteTweet
  */
-@WebServlet({"/DeleteTweet","/DeleteTweet/*"})
-public class DeleteTweet extends HttpServlet {
+@WebServlet({"/DeleteProfile","/DeleteProfile/*"})
+public class DeleteProfile extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     Cluster cluster;
     
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DeleteTweet() {
+    public DeleteProfile() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,24 +35,22 @@ public class DeleteTweet extends HttpServlet {
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		String tweet = request.getRequestURI();
-		tweet = tweet.substring(tweet.lastIndexOf("/")+1);
-					
-		UUID tweetID = UUID.fromString(tweet);
+		String user = request.getRequestURI();
+		user = user.substring(user.lastIndexOf("/")+1);
+		System.out.println("UUID: "+user);			
+		UUID userID = UUID.fromString(user);
+			
 		
-		UserStore currUser = ((UserStore) request.getSession().getAttribute(
-				"UserDetails"));
+		DeleteUserModel dum = new DeleteUserModel();
 		
-		UUID userID = currUser.getID();
-		
-		DeleteTweetModel dtm = new DeleteTweetModel();
-		
-		dtm.setCluster(cluster);
-		dtm.removeTweet(tweetID, userID);
+		dum.setCluster(cluster);
+		dum.removeUser(userID);
 		
 		//response.sendRedirect("/TwitterClone_Cassandra/TweetGetter");
 
-		String referer = request.getHeader("Referer");
-		response.sendRedirect(referer);
+		HttpSession s = request.getSession();
+		s.invalidate();
+	
+		response.sendRedirect("/TwitterClone_Cassandra/ProfileDeleted.jsp");
 	}
 }

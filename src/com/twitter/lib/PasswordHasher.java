@@ -1,5 +1,10 @@
 package com.twitter.lib;
 
+/*
+ *Used to hash/unhash password stored in db for security 
+ */
+
+
 public class PasswordHasher {
 	
 	public static String byteArrayToString(byte[] b) {

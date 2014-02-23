@@ -6,7 +6,6 @@ import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.Session;
-import com.twitter.stores.TweetStore;
 
 public class DeleteTweetModel {
 	Cluster cluster;
@@ -22,13 +21,13 @@ public class DeleteTweetModel {
 	public void removeTweet(UUID tweetID, UUID userID) {
 	
 		Session session = cluster.connect("TwitterDB");
-		
+			
 		PreparedStatement statement = session.prepare("DELETE From Tweets WHERE user = "+userID+" and id = "+tweetID);
-		BoundStatement boundStatement = new BoundStatement(statement);
+		BoundStatement boundStatement = new BoundStatement(statement);		
+		
 		session.execute(boundStatement);
-
 		session.close();
-		System.out.println("Tweet Deleted!");
+		
 	}
 
 }

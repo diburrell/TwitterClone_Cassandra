@@ -3,13 +3,12 @@ package com.twitter.stores;
 import java.util.Date;
 import java.util.UUID;
 
-public class TweetStore {
+public class TweetStore implements Comparable<TweetStore> {
 	String Tweet;
 	String UserName;
 	UUID TweetID;
 	UUID UserID;
 	Date when;
-
 
 	public String getTweet() {
 		return Tweet;
@@ -18,11 +17,11 @@ public class TweetStore {
 	public String getUser() {
 		return UserName;
 	}
-	
+
 	public UUID getTweetID() {
 		return TweetID;
 	}
-	
+
 	public UUID getUserID() {
 		return UserID;
 	}
@@ -31,7 +30,6 @@ public class TweetStore {
 		return when;
 	}
 
-	
 	public void setTweet(String Tweet) {
 		this.Tweet = Tweet;
 	}
@@ -43,7 +41,7 @@ public class TweetStore {
 	public void setTweetID(UUID TweetID) {
 		this.TweetID = TweetID;
 	}
-	
+
 	public void setUserID(UUID UserID) {
 		this.UserID = UserID;
 	}
@@ -52,5 +50,18 @@ public class TweetStore {
 		this.when = when;
 	}
 
+	@Override
+	public int compareTo(TweetStore o) {
+		Date comparedDate = o.when;
+		if (this.when.compareTo(comparedDate) < 0) {
+			System.out.println("Move up");
+			return 1;
+		} else if (this.when.compareTo(comparedDate) == 0) {
+			return 0;
+		} else {
+			System.out.println("Move down");
+			return -1;
+		}
+	}
 
 }

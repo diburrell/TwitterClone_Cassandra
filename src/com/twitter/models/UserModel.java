@@ -46,7 +46,14 @@ public class UserModel {
 				currUser.setFirst(details.getString("firstname"));
 				currUser.setLast(details.getString("lastname"));
 				currUser.setSex(details.getString("gender"));
-				currUser.setFollowing(details.getSet("following", UUID.class));								
+				currUser.setBirthday(details.getString("birthdate"));
+				
+				//people user is following
+				currUser.setFollowing(details.getSet("following", UUID.class));		
+				currUser.setFollowCount(details.getInt("followCount"));
+				//people following the user
+				currUser.setFollowers(details.getSet("followers", UUID.class));
+				currUser.setFollowerCount(details.getInt("followerCount"));
 			}
 						
 		}

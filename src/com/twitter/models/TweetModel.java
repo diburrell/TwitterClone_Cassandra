@@ -1,21 +1,5 @@
 package com.twitter.models;
 
-/*
- * Expects a cassandra columnfamily defined as
- * use keyspace2;
- CREATE TABLE Tweets (
- user varchar,
- interaction_time timeuuid,
- tweet varchar,
- PRIMARY KEY (user,interaction_time)
- ) WITH CLUSTERING ORDER BY (interaction_time DESC);
- * To manually generate a UUID use:
- * http://www.famkruithof.net/uuid/uuidgen
- */
-
-import java.util.LinkedList;
-import java.util.Collections;
-import java.util.Set;
 import java.util.UUID;
 
 import com.datastax.driver.core.BoundStatement;
@@ -26,10 +10,10 @@ import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import com.twitter.stores.TweetStore;
 
-public class TweetListModel {
+public class TweetModel {
 	Cluster cluster;
 
-	public TweetListModel() {
+	public TweetModel() {
 
 	}
 
@@ -37,38 +21,38 @@ public class TweetListModel {
 		this.cluster = cluster;
 	}
 
-	public LinkedList<TweetStore> getTweets(Set<UUID> users) {
-		LinkedList<TweetStore> tweetList = new LinkedList<TweetStore>();
+	public TweetStore getTweet(UUID tweet) {
 		Session session = cluster.connect("TwitterDB");
 
-	    	for (UUID f : users) {
 			PreparedStatement statement = session
-					.prepare("SELECT * from tweets where user = " + f);
-
+					.prepare("SELECT * from tweets where id = " + tweet+" ALLOW FILTERING");
 			BoundStatement boundStatement = new BoundStatement(statement);
 			ResultSet rs = session.execute(boundStatement);
 
 			if (rs.isExhausted()) {
 				System.out.println("No Tweets found");
+				
+				session.close();
+				
+				return null;
 			} else {
-				for (Row row : rs) {
+				
+					Row row = rs.one();
+				
 					TweetStore ts = new TweetStore();
 					ts.setTweet(row.getString("content"));
 					ts.setTweetID(row.getUUID("id"));
 					ts.setWhen(row.getDate("when"));
 					ts.setUserID(row.getUUID("user"));
 					ts.setUser(userName(row.getUUID("user"), session));		
-					tweetList.add(ts);
+					
+					session.close();
+					
+					return ts;
 				}
-			}
 		}
-		
-		session.close();
-		
-		Collections.sort(tweetList);
-							
-		return tweetList;
-	}
+								
+	
 
 	private String userName(UUID id, Session session) {
 		PreparedStatement statement = session

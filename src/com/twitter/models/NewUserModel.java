@@ -6,11 +6,8 @@ import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
-import com.twitter.lib.PasswordHasher;
 import com.twitter.stores.UserStore;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 public class NewUserModel {
 	Cluster cluster;
@@ -52,7 +49,7 @@ public class NewUserModel {
 		afm.setCluster(cluster);
 		
 		
-	    newUser.setFollowing(afm.newFollower(newUser, newUser.getID()));
+	    newUser.setFollowing(afm.newFollower(newUser, newUser));
 		
 		session.close();
 

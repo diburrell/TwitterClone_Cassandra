@@ -1,5 +1,6 @@
 package com.twitter.models;
 
+import java.util.Collections;
 import java.util.LinkedList;
 
 import com.datastax.driver.core.BoundStatement;
@@ -41,6 +42,8 @@ public class UserListModel {
 				userList.add(row.getString("username"));
 			}
 		}
+		
+		Collections.sort(userList);
 		
 		session.close();
 		

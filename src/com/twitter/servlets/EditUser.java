@@ -22,56 +22,67 @@ import com.twitter.stores.UserStore;
 public class EditUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Cluster cluster;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public EditUser() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-    public void init(ServletConfig config) throws ServletException {
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public EditUser() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public void init(ServletConfig config) throws ServletException {
 		// TODO Auto-generated method stub
 		cluster = CassandraHosts.getCluster();
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
 		UserStore currUser = ((UserStore) request.getSession().getAttribute(
 				"UserDetails"));
-			
-		  String sex = request.getParameter("sex");
-		  String fname = request.getParameter("FirstName");  
-		  String lname = request.getParameter("LastName");
-		  String bio = request.getParameter("bio");
 
-		  if(bio.equals(null))
-		  {
-			  bio = "N/A";
-		  }
-		  
-		  currUser.setSex(sex);
-		  currUser.setFirst(fname);
-		  currUser.setLast(lname);
-		  currUser.setBio(bio); 
-		  
-		  EditUserModel eum = new EditUserModel();
+		String sex = request.getParameter("sex");
+		String fname = request.getParameter("FirstName");
+		String lname = request.getParameter("LastName");
+		String bio = request.getParameter("bio");
+		String birth = request.getParameter("birthday");
+		
+		System.out.println("DATE: " + request.getParameter("birthday"));
+		System.out.println("Generd: " + request.getParameter("sex"));
+		System.out.println("FNAME: " + request.getParameter("FirstName"));
+		System.out.println("LNAME: " + request.getParameter("LastName"));
+		System.out.println("BIO: " + request.getParameter("bio"));
 
-		  eum.setCluster(cluster);
-		  
-		  eum.editUser(currUser);
-		  
-		  HttpSession s = request.getSession();
-		  s.setAttribute("UserDetails", currUser);
-		  
-UserStore testUser = (UserStore)s.getAttribute("UserDetails");		  		  
-System.out.println(testUser.getEmail());
 
-		  response.sendRedirect("ChangesConf.jsp");
-		  
+		if (bio.equals(null)) {
+			bio = "N/A";
+		}
+
+		currUser.setSex(sex);
+		currUser.setFirst(fname);
+		currUser.setLast(lname);
+		currUser.setBio(bio);
+		currUser.setBirthday(birth);
+
+		EditUserModel eum = new EditUserModel();
+
+		eum.setCluster(cluster);
+
+		eum.editUser(currUser);
+
+		HttpSession s = request.getSession();
+		s.setAttribute("UserDetails", currUser);
+
+		UserStore testUser = (UserStore) s.getAttribute("UserDetails");
+		System.out.println(testUser.getEmail());
+
+		response.sendRedirect("ChangesConf.jsp");
+
 	}
 
 }

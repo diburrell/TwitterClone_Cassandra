@@ -33,9 +33,9 @@ public class loginCheck extends HttpServlet {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void init(ServletConfig config) throws ServletException {	
-		cluster = CassandraHosts.getCluster();
-		
+	public void init(ServletConfig config) throws ServletException {		
+		cluster = CassandraHosts.getCluster();		
+
 	}
 
 	/**
@@ -61,8 +61,8 @@ public class loginCheck extends HttpServlet {
 
 		else {
 			UserModel um = new UserModel();
+			
 			um.setCluster(cluster);
-
 			
 			try
 			{
@@ -72,6 +72,7 @@ public class loginCheck extends HttpServlet {
 			}
 			catch (NoSuchAlgorithmException e)
 			{ }
+			
 			UserStore currUser = um.getUser(em, pw);
 
 			if (currUser != null) {

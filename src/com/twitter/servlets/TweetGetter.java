@@ -47,12 +47,15 @@ public class TweetGetter extends HttpServlet {
 		TweetListModel tm = new TweetListModel();
 		tm.setCluster(cluster);
 
-		String s = request.getRequestURI();
-		s = s.substring(s.lastIndexOf("/") + 1);
-
 		UserStore currUser = ((UserStore) request.getSession().getAttribute(
 				"UserDetails"));
 		
+		if(currUser == null)
+		{
+			response.sendRedirect("");
+		}
+		else
+		{
 			LinkedList<TweetStore> tweetList = tm.getTweets(currUser
 					.getFollowing());
 
@@ -64,7 +67,7 @@ public class TweetGetter extends HttpServlet {
 
 			rd.forward(request, response);
 
-		;
+		}
 	}
 
 	/**

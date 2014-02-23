@@ -1,7 +1,7 @@
 package com.twitter.servlets;
 
 import java.io.IOException;
-import java.util.LinkedList;
+import java.util.UUID;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -13,20 +13,21 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.datastax.driver.core.Cluster;
 import com.twitter.lib.CassandraHosts;
-import com.twitter.models.UserListModel;
+import com.twitter.models.TweetModel;
+import com.twitter.stores.TweetStore;
 
 /**
- * Servlet implementation class ListUsers
+ * Servlet implementation class SingleTweet
  */
-@WebServlet({ "/ListUsers", "/ListUsers/*" })
-public class ListUsers extends HttpServlet {
+@WebServlet({"/SingleTweet","/SingleTweet/*"})
+public class SingleTweet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Cluster cluster;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public ListUsers() {
+	public SingleTweet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -37,17 +38,30 @@ public class ListUsers extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request,
+	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		UserListModel ulm = new UserListModel();
-		ulm.setCluster(cluster);
-		LinkedList<String> userList = ulm.getUsers();
-		request.setAttribute("Users", userList);
-		RequestDispatcher rd = request.getRequestDispatcher("/UserList.jsp");
+
+		String tweet = request.getRequestURI();
+		tweet = tweet.substring(tweet.lastIndexOf("/") + 1);
+
+		UUID tweetID = UUID.fromString(tweet);
+
+		TweetModel tm = new TweetModel();
+		tm.setCluster(cluster);
+
+		TweetStore tweetDeets = tm.getTweet(tweetID);
+
+		request.setAttribute("TweetID", tweet);
+		request.setAttribute("Tweet", tweetDeets); // Set a bean with the
+		// list in it
+
+		RequestDispatcher rd = request.getRequestDispatcher("/SingleTweet.jsp");
+
 		rd.forward(request, response);
+
 	}
 
 }

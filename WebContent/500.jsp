@@ -5,20 +5,18 @@
 <head>
 <link REL="StyleSheet" TYPE="text/css" HREF="css/Details.css">
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>INFORMATION OT FOUND</title>
+<title>INTERNAL ERROR!</title>
 </head>
 <body>
 <div id="content">
-<h1>SOMETHING WENT WRONG!</h1>
+<h1>INTERNAL SERVER ERROR!</h1>
 <br>
 <p>PLEASE TRY AGAIN LATER!
-
 <%		String referer = request.getHeader("Referer");
 %>
-		<form name="goBack" action="/TwitterClone_Cassandra/">
+		<form name="goBack" action=<%=referer%>>
 			<input type="submit" value="Go back!" id="enter">
 		</form>
-
 
 </div>
 </body>
